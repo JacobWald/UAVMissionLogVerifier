@@ -1,27 +1,27 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>UAV Ledger</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f7fa;
-            color: #333;
-            text-align: center;
-            padding-top: 100px;
-        }
-        header {
-            font-size: 2rem;
-            font-weight: bold;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UAV Ledger{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    {% block extra_head %}{% endblock %}
 </head>
 <body>
-    <header>UAV Ledger</header>
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="{% url 'home' %}" class="nav-logo">UAV Ledger</a>
+        </div>
+        <div class="navbar-right">
+            <a href="{% url 'flights_page' %}">Flight Logs</a>
+        </div>
+    </nav>
 
-    {% block content %}
-    
-    {% endblock %}
+    <main>
+        {% block content %}
+        <!-- Each page injects content here -->
+        {% endblock %}
+    </main>
 </body>
 </html>
