@@ -1,7 +1,6 @@
-# uavledger/views.py
-
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from web3 import Web3
 import json
 import hashlib
 from services.contract import (
@@ -10,8 +9,6 @@ from services.contract import (
     contract,
     send_txn,
 )
-
-from services.eth_client import get_chain_info
 
 # -----------------------------
 # ETH STATUS ENDPOINT
