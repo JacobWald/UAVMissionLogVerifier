@@ -20,6 +20,7 @@ from services.uav_registry_client import (
     add_checkpoint_on_chain,
     close_flight_on_chain,
 )
+from services.eth_client import w3
 
 def read_log_bytes_by_lines(path: Path):
     """
@@ -86,6 +87,10 @@ def simulate_uploads(
     bucket = bucket or settings.AWS_S3_BUCKET
     if not bucket:
         raise RuntimeError("AWS_S3_BUCKET is not set (check your .env and settings).")
+    
+    if not w3.is_connected():
+        print("❌ Not connected to Ethereum node – aborting; no S3 uploads were performed.")
+        return
 
     s3 = s3_client()
     key = flight_key(flight_id)
