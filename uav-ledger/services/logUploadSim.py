@@ -160,7 +160,7 @@ def main():
     )
     parser.add_argument(
         "--source",
-        default="logs/flt_data_LINE-61m.txt",
+        default="logs/data.txt",
         help="Path to source log file."
     )
     parser.add_argument(
