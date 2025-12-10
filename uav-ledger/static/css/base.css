@@ -13,7 +13,9 @@ body {
     align-items: center;
     background-color: var(--color-primary);
     color: var(--color-secondary-alt);
-    padding: 12px 24px;
+    padding: 20px 40px;         
+    height: 40px;              
+    font-size: 1.7rem; 
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -47,5 +49,6 @@ body {
 
 main {
     padding: 24px;
+    margin-top: 2rem;
 }
 
