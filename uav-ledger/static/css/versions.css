@@ -108,7 +108,7 @@
 /* Spinner */
 
 .verify-spinner {
-  display: none; /* turned on via JS before submit */
+  display: none;
   align-items: center;
   gap: 0.6rem;
   margin-top: 0.75rem;
@@ -189,18 +189,18 @@
 }
 
 .verify-table tbody tr:nth-child(even) {
-  background-color: rgba(222, 211, 196, 0.1); /* secondary, low alpha */
+  background-color: rgba(222, 211, 196, 0.1); 
 }
 
 .status-mismatch td,
 .status-shrank td {
-  background-color: rgba(244, 235, 211, 0.16); /* secondary-alt hint */
+  background-color: rgba(244, 235, 211, 0.16);
 }
 
 .status-missing_onchain td,
 .status-extra_onchain td,
 .status-unknown td {
-  background-color: rgba(222, 211, 196, 0.2); /* secondary hint */
+  background-color: rgba(222, 211, 196, 0.2);
 }
 
 /* Result bar */

@@ -2,7 +2,7 @@
 
 .home-card {
     max-width: 650px;
-    margin: 60px auto;              /* center horizontally */
+    margin: 60px auto;           
     background: var(--color-primary);
     color: var(--color-secondary-alt);
     padding: 40px 50px;

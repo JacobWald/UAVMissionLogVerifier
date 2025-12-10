@@ -14,15 +14,13 @@ def flights_page(request):
 def flight_versions_page(request, flight_id: str):
     key, versions = list_versions(flight_id)
 
-    # Basic summary info for the header
     version_count = len(versions)
     latest_version_time = None
     if versions:
-        # list_versions returns newest → oldest
         latest = versions[0]
         latest_version_time = latest.get("last_modified")
 
-    # Optional verification (triggered by ?verify=1)
+    #Verification against chain
     verify_summary = None
     verify_rows = []
 

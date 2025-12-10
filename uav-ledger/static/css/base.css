@@ -35,10 +35,10 @@ body {
     padding: 0;            
     margin-left: 16px;      
     color: var(--color-secondary-alt);
-    font: inherit;          /* same font/size as links */
-    line-height: 1;         /* avoid tall button box */
+    font: inherit;        
+    line-height: 1;       
     cursor: pointer;
-    vertical-align: middle; /* align baseline with links */
+    vertical-align: middle; 
     -webkit-appearance: none;
     appearance: none;
 }
