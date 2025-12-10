@@ -1,5 +1,11 @@
 @import url('variables.css');
 
+.container {
+    max-width: 1000px;        
+    margin: 0 auto;         
+    padding: 20px;
+}
+
 /* Layout for the flights grid */
 .flights-grid {
   display: grid;

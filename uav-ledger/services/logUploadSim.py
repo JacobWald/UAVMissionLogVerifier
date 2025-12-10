@@ -15,6 +15,11 @@ from django.conf import settings
 from storage.s3_client import s3_client, flight_key
 from typing import Optional
 import hashlib
+from services.uav_registry_client import (
+    register_flight_on_chain,
+    add_checkpoint_on_chain,
+    close_flight_on_chain,
+)
 
 def read_log_bytes_by_lines(path: Path):
     """
@@ -48,6 +53,28 @@ def rolling_seed() -> bytes:
 
 def rolling_update(H_prev: bytes, new_bytes: bytes) -> bytes:
     return hashlib.sha256(H_prev + new_bytes).digest()
+
+def emit_checkpoint_to_chain(flight_id: str, seq_no: int, tip_hash_hex: str):
+    """
+    Ensure the flight is registered, then add a checkpoint for this upload.
+    For now we just store (flightId, versionId=seq_no, hash).
+    """
+    if seq_no == 1:
+        # First upload ⇒ register the flight
+        print(f"Registering flight {flight_id} on-chain...")
+        reg = register_flight_on_chain(flight_id)
+        print(f"  → tx={reg['transaction_hash']} status={reg['status']}")
+
+    print(
+        f"Adding checkpoint for {flight_id} seq_no={seq_no} "
+        f"hash={tip_hash_hex}"
+    )
+    cp = add_checkpoint_on_chain(
+        flight_id=flight_id,
+        version_id=seq_no,
+        hash_hex=tip_hash_hex,
+    )
+    print(f"  → tx={cp['transaction_hash']} status={cp['status']}")
 
 
 def simulate_uploads(
@@ -103,18 +130,22 @@ def simulate_uploads(
 
         prev_upto = upto
 
-        # What will be emitted to Ethereum
-        checkpoint = {
-            "flightId": flight_id,
-            "seqNo": seq_no,
-            "tipHash": tip_hash_hex,
-            "s3Bucket": bucket,
-            "s3Key": key,
-            "s3VersionId": version_id,
-        }
-        # STUB for a call to emit checkpoint to Ethereum
-        #emit_checkpoint()
+        # Send to Ethereum
+        try:
+            emit_checkpoint_to_chain(
+                flight_id=flight_id,
+                seq_no=seq_no,
+                tip_hash_hex=H.hex(),  # or tip_hash_hex (with "0x")
+            )
+        except Exception as e:
+            print(f"⚠️ Failed to emit checkpoint on-chain: {e}")
 
+    try:
+        print(f"Closing flight {flight_id} on-chain...")
+        res = close_flight_on_chain(flight_id)
+        print(f"  → tx={res['transaction_hash']} status={res['status']}")
+    except Exception as e:
+        print(f"⚠️ Failed to close flight on-chain: {e}")
     print("-" * 60)
     print("Done. You should now see multiple versions via:")
     print(f"  GET /api/storage/versions/{flight_id}")
